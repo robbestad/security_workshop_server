@@ -12,7 +12,7 @@ describe("Array", function() {
 
   it("welcomes user to the api", done => {
     request(app)
-      .get("/")
+      .get("/api/v1/info")
       .end((err, res) => {
         expect(res.status).to.eql(200);
         expect(res.body.status).to.equals("success");
@@ -24,7 +24,7 @@ describe("Array", function() {
   });
   it("creates a user", done => {
     request(app)
-      .post("/user/create")
+      .post("/api/v1/user/create")
       .send({ username: "jens", password: "$a&bc12Pl3" })
       .end((err, res) => {
         expect(res.status).to.eql(200);
@@ -35,7 +35,7 @@ describe("Array", function() {
   });
   it("logs in a user", done => {
     request(app)
-      .post("/user/login")
+      .post("/api/v1/user/login")
       .send({ username: "jens", password: "$a&bc12Pl3" })
       .end((err, res) => {
         Cookies = res.header["set-cookie"];
@@ -47,7 +47,7 @@ describe("Array", function() {
       });
   });
   it("fetch user information for logged in user with session cookie", done => {
-    const req = request(app).get("/v1/session");
+    const req = request(app).get("/api/v1/session");
     req.cookies = Cookies;
     req.set("Accept", "application/json");
     req.end(function(err, res) {
@@ -56,7 +56,7 @@ describe("Array", function() {
     });
   });
   it("return unauthorized when missing session cookie", done => {
-    const req = request(app).get("/v1/session");
+    const req = request(app).get("/api/v1/session");
     req.set("Accept", "application/json");
     req.end(function(err, res) {
       expect(res.body.message).to.equals(`Unauthorized!`);
@@ -64,7 +64,7 @@ describe("Array", function() {
     });
   });
   it("logs out user", done => {
-    const req = request(app).delete("/user/login");
+    const req = request(app).delete("/api/v1/user/login");
     req.cookies = Cookies;
     req.set("Accept", "application/json");
     req.end(function(err, res) {
@@ -73,7 +73,7 @@ describe("Array", function() {
     });
   });
   it("return unauthorized when user is logged out but sends a session cookie", done => {
-    const req = request(app).get("/v1/session");
+    const req = request(app).get("/api/v1/session");
     req.set("Accept", "application/json");
     req.cookies = Cookies;
     req.end(function(err, res) {
@@ -84,7 +84,7 @@ describe("Array", function() {
 
   xit("stores user information", done => {
     request(app)
-      .post("/user/data/1")
+      .post("/api/v1/user/data/1")
       .send({ name: "Jens", information: "" })
 
       .end((err, res) => {
@@ -96,7 +96,7 @@ describe("Array", function() {
   });
   xit("fetches user information for a logged in user", done => {
     request(app)
-      .get("/user/data/1")
+      .get("/api/v1/user/data/1")
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.body.status).to.equals("success");

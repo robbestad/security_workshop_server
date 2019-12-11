@@ -1,6 +1,6 @@
 var verify, router, express, debug;
 express = require("express");
-verify = require("../../lib/security/hashing/hashing").verify;
+verify = require("../../../lib/security/hashing/hashing").verify;
 router = express.Router();
 debug = require("debug")("security");
 

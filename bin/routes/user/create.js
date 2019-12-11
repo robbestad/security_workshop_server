@@ -1,7 +1,7 @@
 var hash, express, router;
 
 var express = require("express");
-hash = require("../../lib/security/hashing/hashing").hash;
+hash = require("../../../lib/security/hashing/hashing").hash;
 http = require("http");
 var router = express.Router();
 
