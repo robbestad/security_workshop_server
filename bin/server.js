@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 app.use(session(require("./session_config")({ app, sharedSecret })));
 
 // setup routes
-app.use("/api/v1/info", require("./routes/info"));
+app.use("/api/v1", require("./routes/info"));
 app.use("/api/v1/session", require("./routes/session"));
 app.use("/api/v1/user", require("./routes/user")({ users, sharedSecret }));
 

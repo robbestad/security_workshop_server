@@ -12,7 +12,7 @@ describe("Array", function() {
 
   it("welcomes user to the api", done => {
     request(app)
-      .get("/api/v1/info")
+      .get("/api/v1")
       .end((err, res) => {
         expect(res.status).to.eql(200);
         expect(res.body.status).to.equals("success");
