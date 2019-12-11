@@ -46,7 +46,7 @@ describe("Array", function() {
         done();
       });
   });
-  it("fetch user information for logged in user", done => {
+  it("fetch user information for logged in user with session cookie", done => {
     const req = request(app).get("/v1/session");
     req.cookies = Cookies;
     req.set("Accept", "application/json");
@@ -55,7 +55,7 @@ describe("Array", function() {
       done();
     });
   });
-  it("return unauthorized when missing cookie session", done => {
+  it("return unauthorized when missing session cookie", done => {
     const req = request(app).get("/v1/session");
     req.set("Accept", "application/json");
     req.end(function(err, res) {

@@ -1,5 +1,6 @@
 "use strict";
-var bodyParser,
+var name,
+  bodyParser,
   express,
   port,
   app,
@@ -12,6 +13,8 @@ var bodyParser,
 sharedSecret =
   process.env.sharedSecret ||
   (console.log("Abort... provide sharedSecret"), process.exit());
+
+name = "Sven Anders sitt API";
 
 express = require("express");
 bodyParser = require("body-parser");
@@ -40,24 +43,15 @@ if (app.get("env") === "production") {
 }
 app.use(session(sessionConfig));
 
-const authenticated = (req, res, next) => {
-  if (!req.session.authenticated) {
-    return res.status(401).send({ message: "Unauthorized!" });
-  }
-  next();
-};
-app.get("/v1/session", authenticated, (req, res) => {
-  res.send({ username: req.session.username });
-});
-
 // setup routes
 app.use("/", require("./routes/home"));
+app.use("/v1/session", require("./routes/session"));
 app.use("/user/create", require("./routes/create")({ users, sharedSecret }));
 app.use("/user/login", require("./routes/login")({ users }));
 app.use("/user/login", require("./routes/logout")({ users }));
 
 server = app.listen(port, () =>
-  console.log(`Example app listening on port ${port}!`)
+  console.log(`${name} listening on port ${port}!`)
 );
 
 function stop() {
