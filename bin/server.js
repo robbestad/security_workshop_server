@@ -15,6 +15,8 @@ var users = [];
 app = express();
 app.use(bodyParser.json());
 
+app.use(express.static(require("path").join(__dirname, "..", "public")));
+
 // set up the session
 app.use(session(require("./session_config")({ app, sharedSecret })));
 

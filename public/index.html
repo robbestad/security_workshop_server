@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Login demo</title>
+    <link href="styles/layout.css" rel="stylesheet" type="text/css" />
+    <meta name="description" content="Login/logout" />
+    <meta name="viewport" content="width=device-width" />
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <header>Welcome</header>
+      <main>
+        <form id="loginForm">
+          <div class="login">
+            <label>
+              <input type="text" placeholder="username" />
+            </label>
+            <label>
+              <input type="password" placeholder="password" />
+            </label>
+            <label>
+              <button>logg inn</button>
+            </label>
+          </div>
+        </form>
+      </main>
+      <footer>
+        <p>&copy; Sven Anders Robbestad 2019</p>
+      </footer>
+    </div>
+    <script>
+      const loginForm = document.getElementById("loginForm");
+      loginForm.onsubmit = login;
+      function login(event) {
+        const username = event.target[0].value;
+        const password = event.target[1].value;
+        const body = JSON.stringify({ username, password });
+        console.log(body);
+        fetch("/api/v1/user/login", {
+          method: "POST", // *GET, POST, PUT, DELETE, etc.
+          mode: "cors", // no-cors, *cors, same-origin
+          cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+          credentials: "same-origin", // include, *same-origin, omit
+          headers: {
+            "Content-Type": "application/json"
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          redirect: "follow", // manual, *follow, error
+          referrer: "no-referrer", // no-referrer, *client
+          body: body
+        })
+          .then(res => res.json())
+          .then(loginResult => {
+            console.log(loginResult);
+          });
+        event.preventDefault();
+      }
+    </script>
+  </body>
+</html>

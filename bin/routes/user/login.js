@@ -11,6 +11,12 @@ module.exports = config = function(config) {
     const user = users.find(item => {
       return item.username === username;
     });
+    if (!user) {
+      return res.status(400).send({
+        status: "error",
+        message: "login error"
+      });
+    }
     const valid = verify(password, user.salt, user.hash);
     debug("login()", { valid });
 

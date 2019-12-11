@@ -33,6 +33,17 @@ describe("Array", function() {
         done();
       });
   });
+  it("return login error when user not found", done => {
+    request(app)
+      .post("/api/v1/user/login")
+      .send({ username: "kapteinsabeltann", password: "$a&bc12Pl3" })
+      .end((err, res) => {
+        expect(res.status).to.eql(400);
+        expect(res.body.status).to.equals("error");
+        expect(res.body.message).to.equals(`login error`);
+        done();
+      });
+  });
   it("logs in a user", done => {
     request(app)
       .post("/api/v1/user/login")
