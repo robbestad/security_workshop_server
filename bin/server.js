@@ -15,7 +15,9 @@ var users = [];
 app = express();
 app.use(bodyParser.json());
 
-app.use(express.static(require("path").join(__dirname, "..", "public")));
+app.use(
+  express.static(require("path").join(__dirname, "..", "client", "public"))
+);
 
 // set up the session
 app.use(session(require("./session_config")({ app, sharedSecret })));
@@ -24,6 +26,9 @@ app.use(session(require("./session_config")({ app, sharedSecret })));
 app.use("/api/v1", require("./routes/info"));
 app.use("/api/v1/session", require("./routes/session"));
 app.use("/api/v1/user", require("./routes/user")({ users, sharedSecret }));
+app.use("/*", (_, res) =>
+  res.sendFile("index.html", { root: "client/public" })
+);
 
 port = app.get("port") || 1337;
 
