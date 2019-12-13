@@ -31,6 +31,9 @@ section {
   margin: 10px auto;
 }
 
+.center {
+  text-align: center;
+}
 .login *,
 section * {
   justify-self: center;

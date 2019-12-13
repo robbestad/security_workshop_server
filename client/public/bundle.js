@@ -21,10 +21,10 @@ var app = (function() {
   function i(t, e) {
     t.appendChild(e);
   }
-  function c(t, e, n) {
+  function a(t, e, n) {
     t.insertBefore(e, n || null);
   }
-  function a(t) {
+  function c(t) {
     t.parentNode.removeChild(t);
   }
   function u(t) {
@@ -33,10 +33,10 @@ var app = (function() {
   function l(t) {
     return document.createTextNode(t);
   }
-  function f() {
+  function d() {
     return l(" ");
   }
-  function d(t, e, n, r) {
+  function f(t, e, n, r) {
     return t.addEventListener(e, n, r), () => t.removeEventListener(e, n, r);
   }
   function h(t) {
@@ -49,19 +49,19 @@ var app = (function() {
       ? t.removeAttribute(e)
       : t.getAttribute(e) !== n && t.setAttribute(e, n);
   }
-  function m(t, e) {
+  function g(t, e) {
     (e = "" + e), t.data !== e && (t.data = e);
   }
-  let g;
-  function y(t) {
-    g = t;
+  let m;
+  function v(t) {
+    m = t;
+  }
+  function y() {
+    if (!m) throw new Error("Function called outside component initialization");
+    return m;
   }
   function b() {
-    if (!g) throw new Error("Function called outside component initialization");
-    return g;
-  }
-  function $() {
-    const t = b();
+    const t = y();
     return (e, n) => {
       const r = t.$$.callbacks[e];
       if (r) {
@@ -75,21 +75,21 @@ var app = (function() {
       }
     };
   }
-  const v = [],
+  const $ = [],
     x = [],
     w = [],
     k = [],
-    _ = Promise.resolve();
-  let E = !1;
-  function A(t) {
+    E = Promise.resolve();
+  let _ = !1;
+  function L(t) {
     w.push(t);
   }
-  function L() {
+  function A() {
     const t = new Set();
     do {
-      for (; v.length; ) {
-        const t = v.shift();
-        y(t), C(t.$$);
+      for (; $.length; ) {
+        const t = $.shift();
+        v(t), C(t.$$);
       }
       for (; x.length; ) x.pop()();
       for (let e = 0; e < w.length; e += 1) {
@@ -97,9 +97,9 @@ var app = (function() {
         t.has(n) || (n(), t.add(n));
       }
       w.length = 0;
-    } while (v.length);
+    } while ($.length);
     for (; k.length; ) k.pop()();
-    E = !1;
+    _ = !1;
   }
   function C(t) {
     null !== t.fragment &&
@@ -107,36 +107,36 @@ var app = (function() {
       r(t.before_update),
       t.fragment && t.fragment.p(t.ctx, t.dirty),
       (t.dirty = [-1]),
-      t.after_update.forEach(A));
+      t.after_update.forEach(L));
   }
   const O = new Set();
-  let N;
-  function T(t, e) {
+  let T;
+  function j(t, e) {
     t && t.i && (O.delete(t), t.i(e));
   }
-  function j(t, e, n, r) {
+  function N(t, e, n, r) {
     if (t && t.o) {
       if (O.has(t)) return;
       O.add(t),
-        N.c.push(() => {
+        T.c.push(() => {
           O.delete(t), r && (n && t.d(1), r());
         }),
         t.o(e);
     }
   }
-  function F(t) {
+  function H(t) {
     t && t.c();
   }
   function M(t, n, s) {
-    const { fragment: i, on_mount: c, on_destroy: a, after_update: u } = t.$$;
+    const { fragment: i, on_mount: a, on_destroy: c, after_update: u } = t.$$;
     i && i.m(n, s),
-      A(() => {
-        const n = c.map(e).filter(o);
-        a ? a.push(...n) : r(n), (t.$$.on_mount = []);
+      L(() => {
+        const n = a.map(e).filter(o);
+        c ? c.push(...n) : r(n), (t.$$.on_mount = []);
       }),
-      u.forEach(A);
+      u.forEach(L);
   }
-  function S(t, e) {
+  function F(t, e) {
     const n = t.$$;
     null !== n.fragment &&
       (r(n.on_destroy),
@@ -144,21 +144,21 @@ var app = (function() {
       (n.on_destroy = n.fragment = null),
       (n.ctx = []));
   }
-  function q(t, e) {
+  function S(t, e) {
     -1 === t.$$.dirty[0] &&
-      (v.push(t), E || ((E = !0), _.then(L)), t.$$.dirty.fill(0)),
+      ($.push(t), _ || ((_ = !0), E.then(A)), t.$$.dirty.fill(0)),
       (t.$$.dirty[(e / 31) | 0] |= 1 << e % 31);
   }
-  function H(e, o, s, i, c, a, u = [-1]) {
-    const l = g;
-    y(e);
-    const f = o.props || {},
-      d = (e.$$ = {
+  function q(e, o, s, i, a, c, u = [-1]) {
+    const l = m;
+    v(e);
+    const d = o.props || {},
+      f = (e.$$ = {
         fragment: null,
         ctx: null,
-        props: a,
+        props: c,
         update: t,
-        not_equal: c,
+        not_equal: a,
         bound: n(),
         on_mount: [],
         on_destroy: [],
@@ -169,39 +169,39 @@ var app = (function() {
         dirty: u
       });
     let h = !1;
-    (d.ctx = s
+    (f.ctx = s
       ? s(
           e,
-          f,
+          d,
           (t, n, r = n) => (
-            d.ctx &&
-              c(d.ctx[t], (d.ctx[t] = r)) &&
-              (d.bound[t] && d.bound[t](r), h && q(e, t)),
+            f.ctx &&
+              a(f.ctx[t], (f.ctx[t] = r)) &&
+              (f.bound[t] && f.bound[t](r), h && S(e, t)),
             n
           )
         )
       : []),
-      d.update(),
+      f.update(),
       (h = !0),
-      r(d.before_update),
-      (d.fragment = !!i && i(d.ctx)),
+      r(f.before_update),
+      (f.fragment = !!i && i(f.ctx)),
       o.target &&
         (o.hydrate
-          ? d.fragment &&
-            d.fragment.l(
+          ? f.fragment &&
+            f.fragment.l(
               (function(t) {
                 return Array.from(t.childNodes);
               })(o.target)
             )
-          : d.fragment && d.fragment.c(),
-        o.intro && T(e.$$.fragment),
+          : f.fragment && f.fragment.c(),
+        o.intro && j(e.$$.fragment),
         M(e, o.target, o.anchor),
-        L()),
-      y(l);
+        A()),
+      v(l);
   }
-  class R {
+  class P {
     $destroy() {
-      S(this, 1), (this.$destroy = t);
+      F(this, 1), (this.$destroy = t);
     }
     $on(t, e) {
       const n = this.$$.callbacks[t] || (this.$$.callbacks[t] = []);
@@ -215,23 +215,23 @@ var app = (function() {
     }
     $set() {}
   }
-  const D = [];
-  function P(t, e) {
-    return { subscribe: B(t, e).subscribe };
+  const R = [];
+  function B(t, e) {
+    return { subscribe: D(t, e).subscribe };
   }
-  function B(e, n = t) {
+  function D(e, n = t) {
     let r;
     const o = [];
     function i(t) {
       if (s(e, t) && ((e = t), r)) {
-        const t = !D.length;
+        const t = !R.length;
         for (let t = 0; t < o.length; t += 1) {
           const n = o[t];
-          n[1](), D.push(n, e);
+          n[1](), R.push(n, e);
         }
         if (t) {
-          for (let t = 0; t < D.length; t += 2) D[t][0](D[t + 1]);
-          D.length = 0;
+          for (let t = 0; t < R.length; t += 2) R[t][0](R[t + 1]);
+          R.length = 0;
         }
       }
     }
@@ -240,14 +240,14 @@ var app = (function() {
       update: function(t) {
         i(t(e));
       },
-      subscribe: function(s, c = t) {
-        const a = [s, c];
+      subscribe: function(s, a = t) {
+        const c = [s, a];
         return (
-          o.push(a),
+          o.push(c),
           1 === o.length && (r = n(i) || t),
           s(e),
           () => {
-            const t = o.indexOf(a);
+            const t = o.indexOf(c);
             -1 !== t && o.splice(t, 1), 0 === o.length && (r(), (r = null));
           }
         );
@@ -256,23 +256,23 @@ var app = (function() {
   }
   function I(e, n, s) {
     const i = !Array.isArray(e),
-      c = i ? [e] : e,
-      a = n.length < 2;
-    return P(s, e => {
+      a = i ? [e] : e,
+      c = n.length < 2;
+    return B(s, e => {
       let s = !1;
       const u = [];
       let l = 0,
-        f = t;
-      const d = () => {
+        d = t;
+      const f = () => {
           if (l) return;
-          f();
+          d();
           const r = n(i ? u[0] : u, e);
-          a ? e(r) : (f = o(r) ? r : t);
+          c ? e(r) : (d = o(r) ? r : t);
         },
-        h = c.map((t, e) =>
+        h = a.map((t, e) =>
           t.subscribe(
             t => {
-              (u[e] = t), (l &= ~(1 << e)), s && d();
+              (u[e] = t), (l &= ~(1 << e)), s && f();
             },
             () => {
               l |= 1 << e;
@@ -281,9 +281,9 @@ var app = (function() {
         );
       return (
         (s = !0),
-        d(),
+        f(),
         function() {
-          r(h), f();
+          r(h), d();
         }
       );
     });
@@ -295,21 +295,21 @@ var app = (function() {
       o,
       s,
       i = [],
-      c = "",
-      a = t.split("/");
-    for (a[0] || a.shift(); (o = a.shift()); )
+      a = "",
+      c = t.split("/");
+    for (c[0] || c.shift(); (o = c.shift()); )
       "*" === (n = o[0])
-        ? (i.push("wild"), (c += "/(.*)"))
+        ? (i.push("wild"), (a += "/(.*)"))
         : ":" === n
         ? ((r = o.indexOf("?", 1)),
           (s = o.indexOf(".", 1)),
           i.push(o.substring(1, ~r ? r : ~s ? s : o.length)),
-          (c += ~r && !~s ? "(?:/([^/]+?))?" : "/([^/]+?)"),
-          ~s && (c += (~r ? "?" : "") + "\\" + o.substring(s)))
-        : (c += "/" + o);
+          (a += ~r && !~s ? "(?:/([^/]+?))?" : "/([^/]+?)"),
+          ~s && (a += (~r ? "?" : "") + "\\" + o.substring(s)))
+        : (a += "/" + o);
     return {
       keys: i,
-      pattern: new RegExp("^" + c + (e ? "(?=$|/)" : "/?$"), "i")
+      pattern: new RegExp("^" + a + (e ? "(?=$|/)" : "/?$"), "i")
     };
   }
   function z(t) {
@@ -321,42 +321,42 @@ var app = (function() {
     if (o) var i = new o(s(t));
     return {
       c() {
-        i && F(i.$$.fragment), (e = l(""));
+        i && H(i.$$.fragment), (e = l(""));
       },
       m(t, r) {
-        i && M(i, t, r), c(t, e, r), (n = !0);
+        i && M(i, t, r), a(t, e, r), (n = !0);
       },
       p(t, n) {
-        const c = {};
-        if ((2 & n[0] && (c.params = t[1]), o !== (o = t[0]))) {
+        const a = {};
+        if ((2 & n[0] && (a.params = t[1]), o !== (o = t[0]))) {
           if (i) {
-            N = { r: 0, c: [], p: N };
+            T = { r: 0, c: [], p: T };
             const t = i;
-            j(t.$$.fragment, 1, 0, () => {
-              S(t, 1);
+            N(t.$$.fragment, 1, 0, () => {
+              F(t, 1);
             }),
-              N.r || r(N.c),
-              (N = N.p);
+              T.r || r(T.c),
+              (T = T.p);
           }
           o
-            ? (F((i = new o(s(t))).$$.fragment),
-              T(i.$$.fragment, 1),
+            ? (H((i = new o(s(t))).$$.fragment),
+              j(i.$$.fragment, 1),
               M(i, e.parentNode, e))
             : (i = null);
-        } else o && i.$set(c);
+        } else o && i.$set(a);
       },
       i(t) {
-        n || (i && T(i.$$.fragment, t), (n = !0));
+        n || (i && j(i.$$.fragment, t), (n = !0));
       },
       o(t) {
-        i && j(i.$$.fragment, t), (n = !1);
+        i && N(i.$$.fragment, t), (n = !1);
       },
       d(t) {
-        t && a(e), i && S(i, t);
+        t && c(e), i && F(i, t);
       }
     };
   }
-  function U() {
+  function K() {
     const t = window.location.href.indexOf("#/");
     let e = t > -1 ? window.location.href.substr(t + 1) : "/";
     const n = e.indexOf("?");
@@ -366,9 +366,9 @@ var app = (function() {
       { location: e, querystring: r }
     );
   }
-  const V = P(U(), function(t) {
+  const U = B(K(), function(t) {
     const e = () => {
-      t(U());
+      t(K());
     };
     return (
       window.addEventListener("hashchange", e, !1),
@@ -377,15 +377,15 @@ var app = (function() {
       }
     );
   });
-  I(V, t => t.location), I(V, t => t.querystring);
-  function W(t) {
+  I(U, t => t.location), I(U, t => t.querystring);
+  function V(t) {
     if (!t || t.length < 1 || ("/" != t.charAt(0) && 0 !== t.indexOf("#/")))
       throw Error("Invalid parameter location");
     setTimeout(() => {
       window.location.hash = ("#" == t.charAt(0) ? "" : "#") + t;
     }, 0);
   }
-  function Z(t) {
+  function W(t) {
     if (!t || !t.tagName || "a" != t.tagName.toLowerCase())
       throw Error('Action "link" can only be used with <a> tags');
     const e = t.getAttribute("href");
@@ -393,7 +393,7 @@ var app = (function() {
       throw Error('Invalid value for "href" attribute');
     t.setAttribute("href", "#" + e);
   }
-  function G(e, n, r) {
+  function Z(e, n, r) {
     let o,
       s = t;
     !(function(t, e, n) {
@@ -403,11 +403,11 @@ var app = (function() {
           return n.unsubscribe ? () => n.unsubscribe() : n;
         })(e, n)
       );
-    })(e, V, t => r(4, (o = t))),
+    })(e, U, t => r(4, (o = t))),
       e.$$.on_destroy.push(() => s());
     let { routes: i = {} } = n,
-      { prefix: c = "" } = n;
-    class a {
+      { prefix: a = "" } = n;
+    class c {
       constructor(t, e) {
         if (
           !e ||
@@ -435,7 +435,7 @@ var app = (function() {
           (this._keys = r);
       }
       match(t) {
-        c && t.startsWith(c) && (t = t.substr(c.length) || "/");
+        a && t.startsWith(a) && (t = t.substr(a.length) || "/");
         const e = this._pattern.exec(t);
         if (null === e) return null;
         if (!1 === this._keys) return e;
@@ -452,10 +452,10 @@ var app = (function() {
     }
     const u = i instanceof Map ? i : Object.entries(i),
       l = [];
-    for (const [t, e] of u) l.push(new a(t, e));
-    let f = null,
-      d = {};
-    const h = $(),
+    for (const [t, e] of u) l.push(new c(t, e));
+    let d = null,
+      f = {};
+    const h = b(),
       p = (t, e) => {
         setTimeout(() => {
           h(t, e);
@@ -464,13 +464,13 @@ var app = (function() {
     return (
       (e.$set = t => {
         "routes" in t && r(2, (i = t.routes)),
-          "prefix" in t && r(3, (c = t.prefix));
+          "prefix" in t && r(3, (a = t.prefix));
       }),
       (e.$$.update = () => {
         if (17 & e.$$.dirty[0]) {
-          r(0, (f = null));
+          r(0, (d = null));
           let t = 0;
-          for (; !f && t < l.length; ) {
+          for (; !d && t < l.length; ) {
             const e = l[t].match(o.location);
             if (e) {
               const n = {
@@ -484,18 +484,18 @@ var app = (function() {
                 p("conditionsFailed", n);
                 break;
               }
-              r(0, (f = l[t].component)), r(1, (d = e)), p("routeLoaded", n);
+              r(0, (d = l[t].component)), r(1, (f = e)), p("routeLoaded", n);
             }
             t++;
           }
         }
       }),
-      [f, d, i, c]
+      [d, f, i, a]
     );
   }
-  class K extends R {
+  class G extends P {
     constructor(t) {
-      super(), H(this, t, G, z, s, { routes: 2, prefix: 3 });
+      super(), q(this, t, Z, z, s, { routes: 2, prefix: 3 });
     }
   }
   const Q = [];
@@ -532,75 +532,75 @@ var app = (function() {
     );
   }
   function et(e) {
-    let n, r, s, l, d, h, m, g, y, b, $, v, x, w, k, _, E, A, L, C;
+    let n, r, s, l, f, h, g, m, v, y, b, $, x, w, k, E, _, L, A, C;
     return {
       c() {
         (n = u("section")),
           (r = u("h2")),
           (r.textContent = "Hjem!"),
-          (s = f()),
+          (s = d()),
           (l = u("p")),
           (l.textContent = "Ting du kan prøve:"),
-          (d = f()),
+          (f = d()),
           (h = u("ul")),
-          (m = u("li")),
-          (g = u("a")),
-          (g.textContent = "Opprette en konto"),
-          ($ = f()),
-          (v = u("li")),
+          (g = u("li")),
+          (m = u("a")),
+          (m.textContent = "Opprette en konto"),
+          (b = d()),
+          ($ = u("li")),
           (x = u("a")),
           (x.textContent = "Logge inn"),
-          (_ = f()),
-          (E = u("li")),
-          (A = u("a")),
-          (A.textContent = "Besøke din profilside"),
+          (E = d()),
+          (_ = u("li")),
+          (L = u("a")),
+          (L.textContent = "Besøke din profilside"),
           p(r, "class", "routetitle"),
-          p(g, "href", "/user/create"),
+          p(m, "href", "/user/create"),
           p(x, "href", "/user/login"),
-          p(A, "href", "/user/profile");
+          p(L, "href", "/user/profile");
       },
       m(t, e) {
-        c(t, n, e),
+        a(t, n, e),
           i(n, r),
           i(n, s),
           i(n, l),
-          i(n, d),
+          i(n, f),
           i(n, h),
-          i(h, m),
-          i(m, g),
-          (y = Z.call(null, g) || {}),
-          (b = tt.call(null, g) || {}),
+          i(h, g),
+          i(g, m),
+          (v = W.call(null, m) || {}),
+          (y = tt.call(null, m) || {}),
+          i(h, b),
           i(h, $),
-          i(h, v),
-          i(v, x),
-          (w = Z.call(null, x) || {}),
+          i($, x),
+          (w = W.call(null, x) || {}),
           (k = tt.call(null, x) || {}),
-          i(h, _),
           i(h, E),
-          i(E, A),
-          (L = Z.call(null, A) || {}),
-          (C = tt.call(null, A) || {});
+          i(h, _),
+          i(_, L),
+          (A = W.call(null, L) || {}),
+          (C = tt.call(null, L) || {});
       },
       p: t,
       i: t,
       o: t,
       d(t) {
-        t && a(n),
+        t && c(n),
+          v && o(v.destroy) && v.destroy(),
           y && o(y.destroy) && y.destroy(),
-          b && o(b.destroy) && b.destroy(),
           w && o(w.destroy) && w.destroy(),
           k && o(k.destroy) && k.destroy(),
-          L && o(L.destroy) && L.destroy(),
+          A && o(A.destroy) && A.destroy(),
           C && o(C.destroy) && C.destroy();
       }
     };
   }
-  V.subscribe(t => {
+  U.subscribe(t => {
     (X = t.location + (t.querystring ? "?" + t.querystring : "")), Q.map(Y);
   });
-  class nt extends R {
+  class nt extends P {
     constructor(t) {
-      super(), H(this, t, null, et, s, {});
+      super(), q(this, t, null, et, s, {});
     }
   }
   function rt(e) {
@@ -610,19 +610,19 @@ var app = (function() {
         (n = u("section")), (n.innerHTML = "<h1>Rute ikke funnet!</h1>");
       },
       m(t, e) {
-        c(t, n, e);
+        a(t, n, e);
       },
       p: t,
       i: t,
       o: t,
       d(t) {
-        t && a(n);
+        t && c(n);
       }
     };
   }
-  class ot extends R {
+  class ot extends P {
     constructor(t) {
-      super(), H(this, t, null, rt, s, {});
+      super(), q(this, t, null, rt, s, {});
     }
   }
   var st = function(t) {
@@ -642,145 +642,139 @@ var app = (function() {
           p(e, "class", "login-error");
       },
       m(t, n) {
-        c(t, e, n);
+        a(t, e, n);
       },
       d(t) {
-        t && a(e);
+        t && c(e);
       }
     };
   }
-  function ct(e) {
+  function at(e) {
     let n,
       o,
       s,
-      g,
+      m,
+      v,
       y,
       b,
       $,
-      v,
       x,
       w,
       k,
-      _,
       E,
-      A,
+      _,
       L,
+      A,
       C,
       O,
-      N,
       T,
       j,
-      F,
-      M,
-      S,
-      q,
+      N,
       H,
-      R,
-      D = e[0] && it();
+      M,
+      F,
+      S,
+      q = e[0] && it();
     return {
       c() {
         (n = u("section")),
-          (o = u("h1")),
-          (o.textContent = "Opprett en konto"),
-          (s = f()),
-          (g = u("div")),
-          (g.textContent =
-            "Brukernavn kan være hva som helst, men passord må inneholde følgende: 2\n    store bokstaver, 2 irregulære tegn (eks: @!& osv) og minst 1 tall."),
-          (y = f()),
-          (b = u("form")),
-          ($ = u("div")),
-          D && D.c(),
-          (v = f()),
-          (x = u("label")),
-          (x.innerHTML =
+          (o = u("div")),
+          (o.innerHTML =
+            '<h1>Opprett en konto</h1> \n  <div>\n    Brukernavn kan være hva som helst, men passord må inneholde følgende: 2\n    store bokstaver, 2 irregulære tegn (eks: @!&amp; osv) og minst 1 tall.\n  </div> \n  <div>\n    Har du allerede en bruker? <a href="/#/user/login">Klikk her</a> for å logge inn.\n  </div>'),
+          (s = d()),
+          (m = u("form")),
+          (v = u("div")),
+          q && q.c(),
+          (y = d()),
+          (b = u("label")),
+          (b.innerHTML =
             '<div>Brukernavn:</div> \n        <input type="text" placeholder="username">'),
-          (w = f()),
-          (k = u("label")),
-          (_ = u("div")),
-          (_.textContent = "Passord:"),
-          (E = f()),
+          ($ = d()),
+          (x = u("label")),
+          (w = u("div")),
+          (w.textContent = "Passord:"),
+          (k = d()),
+          (E = u("input")),
+          (_ = d()),
+          (L = u("label")),
           (A = u("input")),
-          (L = f()),
-          (C = u("label")),
-          (O = u("input")),
-          (N = f()),
-          (T = u("div")),
-          (j = u("small")),
-          (F = l("Passord:\n        ")),
-          (M = u("strong")),
-          (S = l(e[1])),
-          (q = l("\n        gyldig: ")),
-          (H = l(e[2])),
-          p(A, "class", e[3]),
-          p(A, "type", "password"),
-          p(A, "placeholder", "password"),
-          p(O, "class", "submit"),
-          p(O, "type", "submit"),
-          (O.value = "Opprett konto"),
-          p($, "class", "login"),
-          p(b, "id", "loginForm"),
-          (R = [
-            d(A, "keyup", e[4]),
-            d(O, "submit", h(e[5])),
-            d(b, "submit", h(e[5]))
+          (C = d()),
+          (O = u("div")),
+          (T = u("small")),
+          (j = l("Passord:\n        ")),
+          (N = u("strong")),
+          (H = l(e[1])),
+          (M = l("\n        gyldig: ")),
+          (F = l(e[2])),
+          p(o, "class", "center"),
+          p(E, "class", e[3]),
+          p(E, "type", "password"),
+          p(E, "placeholder", "password"),
+          p(A, "class", "submit"),
+          p(A, "type", "submit"),
+          (A.value = "Opprett konto"),
+          p(v, "class", "login"),
+          p(m, "id", "loginForm"),
+          (S = [
+            f(E, "keyup", e[4]),
+            f(A, "submit", h(e[5])),
+            f(m, "submit", h(e[5]))
           ]);
       },
       m(t, e) {
-        c(t, n, e),
+        a(t, n, e),
           i(n, o),
           i(n, s),
-          i(n, g),
-          i(n, y),
-          i(n, b),
-          i(b, $),
-          D && D.m($, null),
-          i($, v),
-          i($, x),
-          i($, w),
-          i($, k),
-          i(k, _),
-          i(k, E),
-          i(k, A),
-          i($, L),
-          i($, C),
-          i(C, O),
-          i(b, N),
-          i(b, T),
+          i(n, m),
+          i(m, v),
+          q && q.m(v, null),
+          i(v, y),
+          i(v, b),
+          i(v, $),
+          i(v, x),
+          i(x, w),
+          i(x, k),
+          i(x, E),
+          i(v, _),
+          i(v, L),
+          i(L, A),
+          i(m, C),
+          i(m, O),
+          i(O, T),
           i(T, j),
-          i(j, F),
-          i(j, M),
-          i(M, S),
-          i(j, q),
-          i(j, H);
+          i(T, N),
+          i(N, H),
+          i(T, M),
+          i(T, F);
       },
       p(t, e) {
-        t[0] ? D || ((D = it()), D.c(), D.m($, v)) : D && (D.d(1), (D = null)),
-          8 & e[0] && p(A, "class", t[3]),
-          2 & e[0] && m(S, t[1]),
-          4 & e[0] && m(H, t[2]);
+        t[0] ? q || ((q = it()), q.c(), q.m(v, y)) : q && (q.d(1), (q = null)),
+          8 & e[0] && p(E, "class", t[3]),
+          2 & e[0] && g(H, t[1]),
+          4 & e[0] && g(F, t[2]);
       },
       i: t,
       o: t,
       d(t) {
-        t && a(n), D && D.d(), r(R);
+        t && c(n), q && q.d(), r(S);
       }
     };
   }
-  function at(t, e, n) {
+  function ct(t, e, n) {
     var r,
       o,
       s = "",
       i = !1,
-      c = "untouched";
+      a = "untouched";
     return [
       r,
       s,
       i,
-      c,
+      a,
       function(t) {
         n(1, (s = t.target.value)),
           n(2, (i = st(s))),
-          i ? n(3, (c = "green")) : !i && o && n(3, (c = "red"));
+          i ? n(3, (a = "green")) : !i && o && n(3, (a = "red"));
       },
       function(t) {
         console.log("try submit", t.target), (o = !0);
@@ -801,15 +795,15 @@ var app = (function() {
           .then(t => {
             console.log(t),
               "success" === t.status
-                ? W("/user/login")
-                : (n(0, (r = !0)), n(3, (c = "red")));
+                ? V("/user/login")
+                : (n(0, (r = !0)), n(3, (a = "red")));
           });
       }
     ];
   }
-  class ut extends R {
+  class ut extends P {
     constructor(t) {
-      super(), H(this, t, at, ct, s, {});
+      super(), q(this, t, ct, at, s, {});
     }
   }
   function lt(t) {
@@ -821,64 +815,84 @@ var app = (function() {
           p(e, "class", "login-error");
       },
       m(t, n) {
-        c(t, e, n);
+        a(t, e, n);
       },
       d(t) {
-        t && a(e);
+        t && c(e);
       }
     };
   }
-  function ft(e) {
+  function dt(e) {
     let n,
       r,
       o,
       s,
       l,
       h,
-      m,
       g,
+      m,
+      v,
       y,
-      b = e[0] && lt();
+      b,
+      $,
+      x,
+      w,
+      k = e[0] && lt();
     return {
       c() {
-        (n = u("form")),
-          (r = u("div")),
-          b && b.c(),
-          (o = f()),
-          (s = u("label")),
-          (s.innerHTML = '<input type="text" placeholder="username">'),
-          (l = f()),
-          (h = u("label")),
-          (h.innerHTML = '<input type="password" placeholder="password">'),
-          (m = f()),
-          (g = u("label")),
-          (g.innerHTML = "<button>Logg inn</button>"),
-          p(r, "class", "login"),
-          p(n, "id", "loginForm"),
-          (y = d(n, "submit", e[1]));
+        (n = u("section")),
+          (r = u("form")),
+          (o = u("h1")),
+          (o.textContent = "Logg inn"),
+          (s = d()),
+          (l = u("div")),
+          (l.innerHTML =
+            '\n    Logg inn med ditt brukernavn og passord. Har du ikke en bruker? \n    <a href="/#/user/create">Klikk her</a> for å opprette en.\n  '),
+          (h = d()),
+          (g = u("div")),
+          k && k.c(),
+          (m = d()),
+          (v = u("label")),
+          (v.innerHTML =
+            '<div>Brukernavn:</div> \n        <input type="text" placeholder="username">'),
+          (y = d()),
+          (b = u("label")),
+          (b.innerHTML =
+            '<div>Passord:</div> \n      <input type="password" placeholder="password">'),
+          ($ = d()),
+          (x = u("label")),
+          (x.innerHTML = "<button>Logg inn</button>"),
+          p(g, "class", "login"),
+          p(r, "id", "loginForm"),
+          (w = f(r, "submit", e[1]));
       },
       m(t, e) {
-        c(t, n, e),
+        a(t, n, e),
           i(n, r),
-          b && b.m(r, null),
           i(r, o),
           i(r, s),
           i(r, l),
           i(r, h),
-          i(r, m),
-          i(r, g);
+          i(r, g),
+          k && k.m(g, null),
+          i(g, m),
+          i(g, v),
+          i(g, y),
+          i(g, b),
+          i(g, $),
+          i(g, x);
       },
       p(t, e) {
-        t[0] ? b || ((b = lt()), b.c(), b.m(r, o)) : b && (b.d(1), (b = null));
+        t[0] ? k || ((k = lt()), k.c(), k.m(g, m)) : k && (k.d(1), (k = null));
       },
       i: t,
       o: t,
       d(t) {
-        t && a(n), b && b.d(), y();
+        t && c(n), k && k.d(), w();
       }
     };
   }
-  function dt(t, e, n) {
+  function ft(t, e, n) {
     var r;
     return [
       r,
@@ -900,59 +914,83 @@ var app = (function() {
           .then(t => t.json())
           .then(t => {
             console.log(t),
-              "success" === t.status ? W("/user/profile") : n(0, (r = !0));
+              "success" === t.status ? V("/user/profile") : n(0, (r = !0));
           }),
           t.preventDefault();
       }
     ];
   }
-  class ht extends R {
+  class ht extends P {
     constructor(t) {
-      super(), H(this, t, dt, ft, s, {});
+      super(), q(this, t, ft, dt, s, {});
     }
   }
   function pt(t) {
-    let e, n, r;
+    let e;
     return {
       c() {
-        (e = u("h1")), (n = l("Velkommen ")), (r = l(t[0]));
+        (e = u("div")),
+          (e.textContent = "Vennligst vent... henter din brukerinformasjon."),
+          p(e, "class", "center");
       },
-      m(t, o) {
-        c(t, e, o), i(e, n), i(e, r);
-      },
-      p(t, e) {
-        1 & e[0] && m(r, t[0]);
+      m(t, n) {
+        a(t, e, n);
       },
       d(t) {
-        t && a(e);
+        t && c(e);
+      }
+    };
+  }
+  function gt(t) {
+    let e, n, r, o, s;
+    return {
+      c() {
+        (e = u("h1")),
+          (n = l("Velkommen ")),
+          (r = l(t[0])),
+          (o = d()),
+          (s = u("div")),
+          (s.textContent = "Hva kan jeg gjøre for deg i dag?");
+      },
+      m(t, c) {
+        a(t, e, c), i(e, n), i(e, r), a(t, o, c), a(t, s, c);
+      },
+      p(t, e) {
+        1 & e[0] && g(r, t[0]);
+      },
+      d(t) {
+        t && c(e), t && c(o), t && c(s);
       }
     };
   }
   function mt(e) {
     let n,
-      r = e[1] && pt(e);
+      r,
+      o = !e[1] && pt(),
+      s = e[1] && gt(e);
     return {
       c() {
-        (n = u("section")), r && r.c();
+        (n = u("section")), o && o.c(), (r = d()), s && s.c();
       },
       m(t, e) {
-        c(t, n, e), r && r.m(n, null);
+        a(t, n, e), o && o.m(n, null), i(n, r), s && s.m(n, null);
       },
       p(t, e) {
-        t[1]
-          ? r
-            ? r.p(t, e)
-            : ((r = pt(t)), r.c(), r.m(n, null))
-          : r && (r.d(1), (r = null));
+        t[1] ? o && (o.d(1), (o = null)) : o || ((o = pt()), o.c(), o.m(n, r)),
+          t[1]
+            ? s
+              ? s.p(t, e)
+              : ((s = gt(t)), s.c(), s.m(n, null))
+            : s && (s.d(1), (s = null));
       },
       i: t,
       o: t,
       d(t) {
-        t && a(n), r && r.d();
+        t && c(n), o && o.d(), s && s.d();
       }
     };
   }
-  function gt(t, e, n) {
+  function vt(t, e, n) {
     var r,
       o,
       s = "";
@@ -960,15 +998,31 @@ var app = (function() {
       (o = async () => {
         const t = await fetch("/api/v1/session");
         var e = await t.json();
-        n(0, (s = e.username)), n(1, (r = !0));
+        "Unauthorized!" === e.message &&
+          (function(t) {
+            if (
+              !t ||
+              t.length < 1 ||
+              ("/" != t.charAt(0) && 0 !== t.indexOf("#/"))
+            )
+              throw Error("Invalid parameter location");
+            setTimeout(() => {
+              const e = ("#" == t.charAt(0) ? "" : "#") + t;
+              history.replaceState(void 0, void 0, e),
+                window.dispatchEvent(new Event("hashchange"));
+            }, 0);
+          })("/user/login"),
+          n(1, (r = !0)),
+          console.log(e),
+          n(0, (s = e.username));
       }),
-      b().$$.on_mount.push(o),
+      y().$$.on_mount.push(o),
       [s, r]
     );
   }
-  class yt extends R {
+  class yt extends P {
     constructor(t) {
-      super(), H(this, t, gt, mt, s, {});
+      super(), q(this, t, vt, mt, s, {});
     }
   }
   let bt;
@@ -981,43 +1035,43 @@ var app = (function() {
       "*": ot
     });
   var $t = bt;
-  function vt(e) {
+  function xt(e) {
     let n;
-    const r = new K({ props: { routes: $t } });
+    const r = new G({ props: { routes: $t } });
     return (
-      r.$on("conditionsFailed", xt),
-      r.$on("routeLoaded", wt),
+      r.$on("conditionsFailed", wt),
+      r.$on("routeLoaded", kt),
       {
         c() {
-          F(r.$$.fragment);
+          H(r.$$.fragment);
         },
         m(t, e) {
           M(r, t, e), (n = !0);
         },
         p: t,
         i(t) {
-          n || (T(r.$$.fragment, t), (n = !0));
+          n || (j(r.$$.fragment, t), (n = !0));
         },
         o(t) {
-          j(r.$$.fragment, t), (n = !1);
+          N(r.$$.fragment, t), (n = !1);
         },
         d(t) {
-          S(r, t);
+          F(r, t);
         }
       }
     );
   }
-  function xt(t) {
+  function wt(t) {
     console.error("Caught event conditionsFailed", t.detail),
       (logbox += "conditionsFailed - " + JSON.stringify(t.detail) + "\n"),
       replace("/error");
   }
-  function wt(t) {
+  function kt(t) {
     console.info("Caught event routeLoaded", t.detail);
   }
-  return new (class extends R {
+  return new (class extends P {
     constructor(t) {
-      super(), H(this, t, null, vt, s, {});
+      super(), q(this, t, null, xt, s, {});
     }
   })({ target: document.querySelector("main") });
 })();

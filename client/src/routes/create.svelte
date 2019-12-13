@@ -1,9 +1,14 @@
 <section>
+<div class="center">
   <h1>Opprett en konto</h1>
   <div>
     Brukernavn kan være hva som helst, men passord må inneholde følgende: 2
     store bokstaver, 2 irregulære tegn (eks: @!& osv) og minst 1 tall.
   </div>
+  <div>
+    Har du allerede en bruker? <a href="/#/user/login">Klikk her</a> for å logge inn.
+  </div>
+</div>
   <form id="loginForm" on:submit|preventDefault={handleSubmit}>
     <div class="login">
       {#if hasError}

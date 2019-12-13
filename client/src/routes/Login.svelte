@@ -1,14 +1,23 @@
+<section>
 <form id="loginForm" on:submit="{handleSubmit}">
+  <h1>Logg inn</h1>
+  <div>
+    Logg inn med ditt brukernavn og passord. Har du ikke en bruker? 
+    <a href="/#/user/create">Klikk her</a> for å opprette en.
+  </div>
+ 
   <div class="login">
     {#if hasError}
       <div class="login-error">
         <span>ERROR!</span>
       </div>
     {/if}
+<label>
+        <div>Brukernavn:</div>
+        <input type="text" placeholder="username" />
+      </label>
     <label>
-      <input type="text" placeholder="username" />
-    </label>
-    <label>
+        <div>Passord:</div>
       <input type="password" placeholder="password" />
     </label>
     <label>
@@ -16,6 +25,7 @@
     </label>
   </div>
 </form>
+</section>
 
 <script>
   import { push, pop, replace } from "svelte-spa-router";

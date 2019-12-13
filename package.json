@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "DEBUG=security sharedSecret=\"oK#2nAZOd8%NDSFe#$\" node bin/server.js",
+    "start": "DEBUG=req,security sharedSecret=\"oK#2nAZOd8%NDSFe#$\" node bin/server.js",
     "test": "ENV=test sharedSecret='test' mocha test/tests/**/*",
     "build": "bash ./build_client.sh"
   },
