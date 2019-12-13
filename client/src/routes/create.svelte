@@ -8,15 +8,15 @@
     <div class="login">
       {#if hasError}
         <div class="login-error">
-          <span>ERROR!</span>
+          <h5>Passord er ikke gyldig!</h5>
         </div>
       {/if}
       <label>
-        <span>Brukernavn:</span>
+        <div>Brukernavn:</div>
         <input type="text" placeholder="username" />
       </label>
       <label>
-        <span>Passord:</span>
+        <div>Passord:</div>
         <input
           class="{passwordClass}"
           type="password"

@@ -93,6 +93,34 @@ describe("Array", function() {
     });
   });
 
+  it("return status error on invalid password on create", done => {
+    const req = request(app)
+      .post("/api/v1/user/create")
+      .send({ username: "jens", password: "$2Pl3" });
+    req.set("Accept", "application/json");
+    req.end(function(err, res) {
+      expect(res.status).to.eql(500);
+      expect(res.body.message).to.equals(
+        `invalid username/password combination`
+      );
+      done();
+    });
+  });
+
+  it("return status error on invalid username (but valid password) on create", done => {
+    const req = request(app)
+      .post("/api/v1/user/create")
+      .send({ username: "j", password: "$2o#AoasdlPl3" });
+    req.set("Accept", "application/json");
+    req.end(function(err, res) {
+      expect(res.status).to.eql(500);
+      expect(res.body.message).to.equals(
+        `invalid username/password combination`
+      );
+      done();
+    });
+  });
+
   xit("stores user information", done => {
     request(app)
       .post("/api/v1/user/data/1")

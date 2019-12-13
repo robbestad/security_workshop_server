@@ -39,12 +39,12 @@ var app = (function() {
   function d(t, e, n, r) {
     return t.addEventListener(e, n, r), () => t.removeEventListener(e, n, r);
   }
-  function p(t) {
+  function h(t) {
     return function(e) {
       return e.preventDefault(), t.call(this, e);
     };
   }
-  function h(t, e, n) {
+  function p(t, e, n) {
     null == n
       ? t.removeAttribute(e)
       : t.getAttribute(e) !== n && t.setAttribute(e, n);
@@ -79,8 +79,8 @@ var app = (function() {
     x = [],
     w = [],
     k = [],
-    E = Promise.resolve();
-  let _ = !1;
+    _ = Promise.resolve();
+  let E = !1;
   function A(t) {
     w.push(t);
   }
@@ -89,7 +89,7 @@ var app = (function() {
     do {
       for (; v.length; ) {
         const t = v.shift();
-        y(t), O(t.$$);
+        y(t), C(t.$$);
       }
       for (; x.length; ) x.pop()();
       for (let e = 0; e < w.length; e += 1) {
@@ -99,9 +99,9 @@ var app = (function() {
       w.length = 0;
     } while (v.length);
     for (; k.length; ) k.pop()();
-    _ = !1;
+    E = !1;
   }
-  function O(t) {
+  function C(t) {
     null !== t.fragment &&
       (t.update(),
       r(t.before_update),
@@ -109,25 +109,25 @@ var app = (function() {
       (t.dirty = [-1]),
       t.after_update.forEach(A));
   }
-  const C = new Set();
+  const O = new Set();
   let N;
   function T(t, e) {
-    t && t.i && (C.delete(t), t.i(e));
+    t && t.i && (O.delete(t), t.i(e));
   }
   function j(t, e, n, r) {
     if (t && t.o) {
-      if (C.has(t)) return;
-      C.add(t),
+      if (O.has(t)) return;
+      O.add(t),
         N.c.push(() => {
-          C.delete(t), r && (n && t.d(1), r());
+          O.delete(t), r && (n && t.d(1), r());
         }),
         t.o(e);
     }
   }
-  function R(t) {
+  function F(t) {
     t && t.c();
   }
-  function F(t, n, s) {
+  function M(t, n, s) {
     const { fragment: i, on_mount: c, on_destroy: a, after_update: u } = t.$$;
     i && i.m(n, s),
       A(() => {
@@ -136,7 +136,7 @@ var app = (function() {
       }),
       u.forEach(A);
   }
-  function M(t, e) {
+  function S(t, e) {
     const n = t.$$;
     null !== n.fragment &&
       (r(n.on_destroy),
@@ -144,12 +144,12 @@ var app = (function() {
       (n.on_destroy = n.fragment = null),
       (n.ctx = []));
   }
-  function S(t, e) {
+  function q(t, e) {
     -1 === t.$$.dirty[0] &&
-      (v.push(t), _ || ((_ = !0), E.then(L)), t.$$.dirty.fill(0)),
+      (v.push(t), E || ((E = !0), _.then(L)), t.$$.dirty.fill(0)),
       (t.$$.dirty[(e / 31) | 0] |= 1 << e % 31);
   }
-  function q(e, o, s, i, c, a, u = [-1]) {
+  function H(e, o, s, i, c, a, u = [-1]) {
     const l = g;
     y(e);
     const f = o.props || {},
@@ -168,7 +168,7 @@ var app = (function() {
         callbacks: n(),
         dirty: u
       });
-    let p = !1;
+    let h = !1;
     (d.ctx = s
       ? s(
           e,
@@ -176,13 +176,13 @@ var app = (function() {
           (t, n, r = n) => (
             d.ctx &&
               c(d.ctx[t], (d.ctx[t] = r)) &&
-              (d.bound[t] && d.bound[t](r), p && S(e, t)),
+              (d.bound[t] && d.bound[t](r), h && q(e, t)),
             n
           )
         )
       : []),
       d.update(),
-      (p = !0),
+      (h = !0),
       r(d.before_update),
       (d.fragment = !!i && i(d.ctx)),
       o.target &&
@@ -195,13 +195,13 @@ var app = (function() {
             )
           : d.fragment && d.fragment.c(),
         o.intro && T(e.$$.fragment),
-        F(e, o.target, o.anchor),
+        M(e, o.target, o.anchor),
         L()),
       y(l);
   }
-  class H {
+  class R {
     $destroy() {
-      M(this, 1), (this.$destroy = t);
+      S(this, 1), (this.$destroy = t);
     }
     $on(t, e) {
       const n = this.$$.callbacks[t] || (this.$$.callbacks[t] = []);
@@ -216,10 +216,10 @@ var app = (function() {
     $set() {}
   }
   const D = [];
-  function B(t, e) {
-    return { subscribe: P(t, e).subscribe };
+  function P(t, e) {
+    return { subscribe: B(t, e).subscribe };
   }
-  function P(e, n = t) {
+  function B(e, n = t) {
     let r;
     const o = [];
     function i(t) {
@@ -258,7 +258,7 @@ var app = (function() {
     const i = !Array.isArray(e),
       c = i ? [e] : e,
       a = n.length < 2;
-    return B(s, e => {
+    return P(s, e => {
       let s = !1;
       const u = [];
       let l = 0,
@@ -269,7 +269,7 @@ var app = (function() {
           const r = n(i ? u[0] : u, e);
           a ? e(r) : (f = o(r) ? r : t);
         },
-        p = c.map((t, e) =>
+        h = c.map((t, e) =>
           t.subscribe(
             t => {
               (u[e] = t), (l &= ~(1 << e)), s && d();
@@ -283,7 +283,7 @@ var app = (function() {
         (s = !0),
         d(),
         function() {
-          r(p), f();
+          r(h), f();
         }
       );
     });
@@ -321,10 +321,10 @@ var app = (function() {
     if (o) var i = new o(s(t));
     return {
       c() {
-        i && R(i.$$.fragment), (e = l(""));
+        i && F(i.$$.fragment), (e = l(""));
       },
       m(t, r) {
-        i && F(i, t, r), c(t, e, r), (n = !0);
+        i && M(i, t, r), c(t, e, r), (n = !0);
       },
       p(t, n) {
         const c = {};
@@ -333,15 +333,15 @@ var app = (function() {
             N = { r: 0, c: [], p: N };
             const t = i;
             j(t.$$.fragment, 1, 0, () => {
-              M(t, 1);
+              S(t, 1);
             }),
               N.r || r(N.c),
               (N = N.p);
           }
           o
-            ? (R((i = new o(s(t))).$$.fragment),
+            ? (F((i = new o(s(t))).$$.fragment),
               T(i.$$.fragment, 1),
-              F(i, e.parentNode, e))
+              M(i, e.parentNode, e))
             : (i = null);
         } else o && i.$set(c);
       },
@@ -352,7 +352,7 @@ var app = (function() {
         i && j(i.$$.fragment, t), (n = !1);
       },
       d(t) {
-        t && a(e), i && M(i, t);
+        t && a(e), i && S(i, t);
       }
     };
   }
@@ -366,7 +366,7 @@ var app = (function() {
       { location: e, querystring: r }
     );
   }
-  const V = B(U(), function(t) {
+  const V = P(U(), function(t) {
     const e = () => {
       t(U());
     };
@@ -455,10 +455,10 @@ var app = (function() {
     for (const [t, e] of u) l.push(new a(t, e));
     let f = null,
       d = {};
-    const p = $(),
-      h = (t, e) => {
+    const h = $(),
+      p = (t, e) => {
         setTimeout(() => {
-          p(t, e);
+          h(t, e);
         }, 0);
       };
     return (
@@ -481,10 +481,10 @@ var app = (function() {
                 userData: l[t].userData
               };
               if (!l[t].checkConditions(n)) {
-                h("conditionsFailed", n);
+                p("conditionsFailed", n);
                 break;
               }
-              r(0, (f = l[t].component)), r(1, (d = e)), h("routeLoaded", n);
+              r(0, (f = l[t].component)), r(1, (d = e)), p("routeLoaded", n);
             }
             t++;
           }
@@ -493,9 +493,9 @@ var app = (function() {
       [f, d, i, c]
     );
   }
-  class K extends H {
+  class K extends R {
     constructor(t) {
-      super(), q(this, t, G, z, s, { routes: 2, prefix: 3 });
+      super(), H(this, t, G, z, s, { routes: 2, prefix: 3 });
     }
   }
   const Q = [];
@@ -532,7 +532,7 @@ var app = (function() {
     );
   }
   function et(e) {
-    let n, r, s, l, d, p, m, g, y, b, $, v, x, w, k, E, _, A, L, O;
+    let n, r, s, l, d, h, m, g, y, b, $, v, x, w, k, _, E, A, L, C;
     return {
       c() {
         (n = u("section")),
@@ -542,7 +542,7 @@ var app = (function() {
           (l = u("p")),
           (l.textContent = "Ting du kan prøve:"),
           (d = f()),
-          (p = u("ul")),
+          (h = u("ul")),
           (m = u("li")),
           (g = u("a")),
           (g.textContent = "Opprette en konto"),
@@ -550,14 +550,14 @@ var app = (function() {
           (v = u("li")),
           (x = u("a")),
           (x.textContent = "Logge inn"),
-          (E = f()),
-          (_ = u("li")),
+          (_ = f()),
+          (E = u("li")),
           (A = u("a")),
           (A.textContent = "Besøke din profilside"),
-          h(r, "class", "routetitle"),
-          h(g, "href", "/user/create"),
-          h(x, "href", "/user/login"),
-          h(A, "href", "/user/profile");
+          p(r, "class", "routetitle"),
+          p(g, "href", "/user/create"),
+          p(x, "href", "/user/login"),
+          p(A, "href", "/user/profile");
       },
       m(t, e) {
         c(t, n, e),
@@ -565,21 +565,21 @@ var app = (function() {
           i(n, s),
           i(n, l),
           i(n, d),
-          i(n, p),
-          i(p, m),
+          i(n, h),
+          i(h, m),
           i(m, g),
           (y = Z.call(null, g) || {}),
           (b = tt.call(null, g) || {}),
-          i(p, $),
-          i(p, v),
+          i(h, $),
+          i(h, v),
           i(v, x),
           (w = Z.call(null, x) || {}),
           (k = tt.call(null, x) || {}),
-          i(p, E),
-          i(p, _),
-          i(_, A),
+          i(h, _),
+          i(h, E),
+          i(E, A),
           (L = Z.call(null, A) || {}),
-          (O = tt.call(null, A) || {});
+          (C = tt.call(null, A) || {});
       },
       p: t,
       i: t,
@@ -591,16 +591,16 @@ var app = (function() {
           w && o(w.destroy) && w.destroy(),
           k && o(k.destroy) && k.destroy(),
           L && o(L.destroy) && L.destroy(),
-          O && o(O.destroy) && O.destroy();
+          C && o(C.destroy) && C.destroy();
       }
     };
   }
   V.subscribe(t => {
     (X = t.location + (t.querystring ? "?" + t.querystring : "")), Q.map(Y);
   });
-  class nt extends H {
+  class nt extends R {
     constructor(t) {
-      super(), q(this, t, null, et, s, {});
+      super(), H(this, t, null, et, s, {});
     }
   }
   function rt(e) {
@@ -620,9 +620,9 @@ var app = (function() {
       }
     };
   }
-  class ot extends H {
+  class ot extends R {
     constructor(t) {
-      super(), q(this, t, null, rt, s, {});
+      super(), H(this, t, null, rt, s, {});
     }
   }
   var st = function(t) {
@@ -638,8 +638,8 @@ var app = (function() {
     return {
       c() {
         (e = u("div")),
-          (e.innerHTML = "<span>ERROR!</span>"),
-          h(e, "class", "login-error");
+          (e.innerHTML = "<h5>Passord er ikke gyldig!</h5>"),
+          p(e, "class", "login-error");
       },
       m(t, n) {
         c(t, e, n);
@@ -661,21 +661,21 @@ var app = (function() {
       x,
       w,
       k,
-      E,
       _,
+      E,
       A,
       L,
-      O,
       C,
+      O,
       N,
       T,
       j,
-      R,
       F,
       M,
       S,
       q,
       H,
+      R,
       D = e[0] && it();
     return {
       c() {
@@ -693,36 +693,36 @@ var app = (function() {
           (v = f()),
           (x = u("label")),
           (x.innerHTML =
-            '<span>Brukernavn:</span> \n        <input type="text" placeholder="username">'),
+            '<div>Brukernavn:</div> \n        <input type="text" placeholder="username">'),
           (w = f()),
           (k = u("label")),
-          (E = u("span")),
-          (E.textContent = "Passord:"),
-          (_ = f()),
+          (_ = u("div")),
+          (_.textContent = "Passord:"),
+          (E = f()),
           (A = u("input")),
           (L = f()),
-          (O = u("label")),
-          (C = u("input")),
+          (C = u("label")),
+          (O = u("input")),
           (N = f()),
           (T = u("div")),
           (j = u("small")),
-          (R = l("Passord:\n        ")),
-          (F = u("strong")),
-          (M = l(e[1])),
-          (S = l("\n        gyldig: ")),
-          (q = l(e[2])),
-          h(A, "class", e[3]),
-          h(A, "type", "password"),
-          h(A, "placeholder", "password"),
-          h(C, "class", "submit"),
-          h(C, "type", "submit"),
-          (C.value = "Opprett konto"),
-          h($, "class", "login"),
-          h(b, "id", "loginForm"),
-          (H = [
+          (F = l("Passord:\n        ")),
+          (M = u("strong")),
+          (S = l(e[1])),
+          (q = l("\n        gyldig: ")),
+          (H = l(e[2])),
+          p(A, "class", e[3]),
+          p(A, "type", "password"),
+          p(A, "placeholder", "password"),
+          p(O, "class", "submit"),
+          p(O, "type", "submit"),
+          (O.value = "Opprett konto"),
+          p($, "class", "login"),
+          p(b, "id", "loginForm"),
+          (R = [
             d(A, "keyup", e[4]),
-            d(C, "submit", p(e[5])),
-            d(b, "submit", p(e[5]))
+            d(O, "submit", h(e[5])),
+            d(b, "submit", h(e[5]))
           ]);
       },
       m(t, e) {
@@ -738,31 +738,31 @@ var app = (function() {
           i($, x),
           i($, w),
           i($, k),
-          i(k, E),
           i(k, _),
+          i(k, E),
           i(k, A),
           i($, L),
-          i($, O),
-          i(O, C),
+          i($, C),
+          i(C, O),
           i(b, N),
           i(b, T),
           i(T, j),
-          i(j, R),
           i(j, F),
-          i(F, M),
-          i(j, S),
-          i(j, q);
+          i(j, M),
+          i(M, S),
+          i(j, q),
+          i(j, H);
       },
       p(t, e) {
         t[0] ? D || ((D = it()), D.c(), D.m($, v)) : D && (D.d(1), (D = null)),
-          8 & e[0] && h(A, "class", t[3]),
-          2 & e[0] && m(M, t[1]),
-          4 & e[0] && m(q, t[2]);
+          8 & e[0] && p(A, "class", t[3]),
+          2 & e[0] && m(S, t[1]),
+          4 & e[0] && m(H, t[2]);
       },
       i: t,
       o: t,
       d(t) {
-        t && a(n), D && D.d(), r(H);
+        t && a(n), D && D.d(), r(R);
       }
     };
   }
@@ -807,9 +807,9 @@ var app = (function() {
       }
     ];
   }
-  class ut extends H {
+  class ut extends R {
     constructor(t) {
-      super(), q(this, t, at, ct, s, {});
+      super(), H(this, t, at, ct, s, {});
     }
   }
   function lt(t) {
@@ -818,7 +818,7 @@ var app = (function() {
       c() {
         (e = u("div")),
           (e.innerHTML = "<span>ERROR!</span>"),
-          h(e, "class", "login-error");
+          p(e, "class", "login-error");
       },
       m(t, n) {
         c(t, e, n);
@@ -834,7 +834,7 @@ var app = (function() {
       o,
       s,
       l,
-      p,
+      h,
       m,
       g,
       y,
@@ -848,13 +848,13 @@ var app = (function() {
           (s = u("label")),
           (s.innerHTML = '<input type="text" placeholder="username">'),
           (l = f()),
-          (p = u("label")),
-          (p.innerHTML = '<input type="password" placeholder="password">'),
+          (h = u("label")),
+          (h.innerHTML = '<input type="password" placeholder="password">'),
           (m = f()),
           (g = u("label")),
           (g.innerHTML = "<button>Logg inn</button>"),
-          h(r, "class", "login"),
-          h(n, "id", "loginForm"),
+          p(r, "class", "login"),
+          p(n, "id", "loginForm"),
           (y = d(n, "submit", e[1]));
       },
       m(t, e) {
@@ -864,7 +864,7 @@ var app = (function() {
           i(r, o),
           i(r, s),
           i(r, l),
-          i(r, p),
+          i(r, h),
           i(r, m),
           i(r, g);
       },
@@ -906,12 +906,12 @@ var app = (function() {
       }
     ];
   }
-  class pt extends H {
+  class ht extends R {
     constructor(t) {
-      super(), q(this, t, dt, ft, s, {});
+      super(), H(this, t, dt, ft, s, {});
     }
   }
-  function ht(t) {
+  function pt(t) {
     let e, n, r;
     return {
       c() {
@@ -930,7 +930,7 @@ var app = (function() {
   }
   function mt(e) {
     let n,
-      r = e[1] && ht(e);
+      r = e[1] && pt(e);
     return {
       c() {
         (n = u("section")), r && r.c();
@@ -942,7 +942,7 @@ var app = (function() {
         t[1]
           ? r
             ? r.p(t, e)
-            : ((r = ht(t)), r.c(), r.m(n, null))
+            : ((r = pt(t)), r.c(), r.m(n, null))
           : r && (r.d(1), (r = null));
       },
       i: t,
@@ -966,16 +966,16 @@ var app = (function() {
       [s, r]
     );
   }
-  class yt extends H {
+  class yt extends R {
     constructor(t) {
-      super(), q(this, t, gt, mt, s, {});
+      super(), H(this, t, gt, mt, s, {});
     }
   }
   let bt;
   new URLSearchParams(window.location.search).has("routemap") ||
     (bt = {
       "/": nt,
-      "/user/login": pt,
+      "/user/login": ht,
       "/user/create": ut,
       "/user/profile": yt,
       "*": ot
@@ -989,10 +989,10 @@ var app = (function() {
       r.$on("routeLoaded", wt),
       {
         c() {
-          R(r.$$.fragment);
+          F(r.$$.fragment);
         },
         m(t, e) {
-          F(r, t, e), (n = !0);
+          M(r, t, e), (n = !0);
         },
         p: t,
         i(t) {
@@ -1002,7 +1002,7 @@ var app = (function() {
           j(r.$$.fragment, t), (n = !1);
         },
         d(t) {
-          M(r, t);
+          S(r, t);
         }
       }
     );
@@ -1015,9 +1015,9 @@ var app = (function() {
   function wt(t) {
     console.info("Caught event routeLoaded", t.detail);
   }
-  return new (class extends H {
+  return new (class extends R {
     constructor(t) {
-      super(), q(this, t, null, vt, s, {});
+      super(), H(this, t, null, vt, s, {});
     }
   })({ target: document.querySelector("main") });
 })();
