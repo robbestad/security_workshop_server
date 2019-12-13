@@ -24,12 +24,35 @@ body {
   font-family: var(--font-main), sans-serif;
 }
 
-.login {
+.login,
+section {
   display: grid;
+  max-width: 600px;
+  margin: 10px auto;
 }
 
-.login * {
+.login *,
+section * {
   justify-self: center;
+}
+.untouched {
+  border: 1px solid lightgray;
+}
+.red {
+  border: 1px solid red !important;
+}
+.green {
+  border: 1px solid green;
+}
+input:hover {
+  border: 1px solid green;
+}
+.submit:active {
+  border: 1px solid green !important;
+  font-weight: bold;
+}
+.submit:hover {
+  border: 1px solid orange;
 }
 
 .wrapper {

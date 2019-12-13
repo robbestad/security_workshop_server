@@ -1,11 +1,37 @@
-<h2 class="routetitle">Home!</h2>
+<style>
+  /* Style for "active" links; need to mark this :global because the router adds the class directly */
+  :global(a.active) {
+    color: crimson;
+  }
+</style>
 
-<p>Welcome to this sample code!</p>
-<p>Things to try:</p>
-<ul>
-    <li>Navigate around with the links and buttons (notice how certain links become active depending on the path</li>
-    <li>Try pressing the browsers' back and forward buttons</li>
-    <li>The "Replace current page" button will change the page without adding a new item in the history stack (try pressing the back button!)</li>
-    <li>Manually change the URL's fragment/hash</li>
-    <li>Try refreshing the page</li>
-</ul>
+<section>
+  <h2 class="routetitle">Hjem!</h2>
+
+  <p>Ting du kan prøve:</p>
+  <ul>
+    <li>
+      <a href="/user/create" use:link use:active>Opprette en konto</a>
+    </li>
+    <li>
+      <a href="/user/login" use:link use:active>Logge inn</a>
+    </li>
+    <li>
+      <a href="/user/profile" use:link use:active>Besøke din profilside</a>
+    </li>
+  </ul>
+
+</section>
+
+<script>
+  import Router from "svelte-spa-router";
+  import {
+    link,
+    push,
+    pop,
+    replace,
+    location,
+    querystring
+  } from "svelte-spa-router";
+  import active from "svelte-spa-router/active";
+</script>
