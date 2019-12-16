@@ -41,7 +41,7 @@ app.use("/api/v1/note", require("./routes/note")({ notes, sharedSecret }));
 app.use("/*", (_, res) =>
   res.sendFile("index.html", { root: "client/public" })
 );
-port = app.get("port") || 1337;
+port = process.env.PORT || 1337;
 
 server = app.listen(port, () =>
   debug(`Sven Anders sitt API listening on port ${port}!`)
