@@ -1,14 +1,12 @@
 <section>
-<div class="center">
   <h1>Opprett en konto</h1>
   <div>
     Brukernavn kan være hva som helst, men passord må inneholde følgende: 2
     store bokstaver, 2 irregulære tegn (eks: @!& osv) og minst 1 tall.
   </div>
   <div>
-    Har du allerede en bruker? <a href="/#/user/login">Klikk her</a> for å logge inn.
+    Har du allerede en bruker? <a href="/user/login">Klikk her</a> for å logge inn.
   </div>
-</div>
   <form id="loginForm" on:submit|preventDefault={handleSubmit}>
     <div class="login">
       {#if hasError}
@@ -46,12 +44,11 @@
       </small>
     </div>
   </form>
-
 </section>
 
 <script>
   import { push, pop, replace } from "svelte-spa-router";
-  import validPass from "../../../lib/security/password/password_validation";
+  import validPass from "../../../../lib/security/password/password_validation";
   var hasError;
   var enteredPassword = "";
   var isValid = false;
@@ -91,7 +88,7 @@
       .then(loginResult => {
         console.log(loginResult);
         if (loginResult.status === "success") {
-          push("/user/login");
+          push("/user/profile");
         } else {
           hasError = true;
           passwordClass = "red";

@@ -1,4 +1,4 @@
-var chai, expect, app, chaiHttp, agent, Cookies, request;
+var chai, expect, app, Cookies, request;
 
 request = require("supertest");
 chai = require("chai");
@@ -119,28 +119,5 @@ describe("Array", function() {
       );
       done();
     });
-  });
-
-  xit("stores user information", done => {
-    request(app)
-      .post("/api/v1/user/data/1")
-      .send({ name: "Jens", information: "" })
-
-      .end((err, res) => {
-        expect(res.status).to.eql(200);
-        expect(res.body.status).to.equals("success");
-        expect(res.body.message).to.equals("jens created");
-        done();
-      });
-  });
-  xit("fetches user information for a logged in user", done => {
-    request(app)
-      .get("/api/v1/user/data/1")
-      .end((err, res) => {
-        expect(res).to.have.status(200);
-        expect(res.body.status).to.equals("success");
-        expect(res.body.message).to.equals(`jens successfully logged in!`);
-        done();
-      });
   });
 });

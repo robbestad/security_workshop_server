@@ -24,15 +24,24 @@ body {
   font-family: var(--font-main), sans-serif;
 }
 
-.login,
 section {
+  margin: 10px 10em;
+}
+section.grid {
+  display: grid;
+}
+
+.login {
   display: grid;
   max-width: 600px;
   margin: 10px auto;
 }
 
 .center {
-  text-align: center;
+  justify-self: center;
+}
+.middle {
+  margin: 40vh 0 0 0;
 }
 .login *,
 section * {
@@ -68,19 +77,40 @@ input:hover {
 }
 
 header {
+  z-index: 1;
+  height: 2em;
+  color: var(--bg-color);
+}
+header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-column-gap: 1em;
+  grid-row-gap: 1em;
+  background: var(--bg-color);
+  color: var(--ivory);
+}
+header div {
+  padding: 0.5em;
+}
+header nav {
+  display: flex;
+  flex: 1 auto;
   flex-flow: row;
   flex-wrap: nowrap;
   justify-content: space-between;
-  padding: 0;
-  margin: 0;
-  height: 3em;
-  max-height: 3em;
-  overflow: hidden;
   background: var(--blue);
-  z-index: 1;
-  color: var(--bg-color);
+  padding: 1em;
+  border-radius: 1em;
+  box-shadow: var(--bg-color) 1px 1px 10px;
 }
-
+header nav ul {
+  margin: 0;
+  list-style: none;
+  padding: 0;
+}
+header nav ul li {
+  display: inline;
+}
 footer {
   background: var(--blue);
   color: var(--ivory);

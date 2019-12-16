@@ -1,12 +1,6 @@
 "use strict";
-var bodyParser,
-  express,
-  app,
-  server,
-  sharedSecret,
-  session,
-  port,
-  isAuthenticated;
+var bodyParser, express, app, server, session, port;
+var sharedSecret, isAuthenticated;
 
 sharedSecret =
   process.env.sharedSecret ||
@@ -17,7 +11,8 @@ bodyParser = require("body-parser");
 session = require("express-session");
 
 isAuthenticated = require("./middleware/authenticated");
-var users = [];
+var users = [],
+  notes = [];
 
 // setup server
 app = express();
@@ -33,7 +28,6 @@ app.use(session(require("./session_config")({ app, sharedSecret })));
 // setup routes
 var debug = require("debug")("req");
 app.use("*", (req, res, next) => {
-  debug(req.path, Object.keys(req));
   debug({ url: req.url });
   debug({ query: req.query });
   debug({ path: req.path });
@@ -43,22 +37,14 @@ app.use("*", (req, res, next) => {
 app.use("/api/v1", require("./routes/info"));
 app.use("/api/v1/session", require("./routes/session"));
 app.use("/api/v1/user", require("./routes/user")({ users, sharedSecret }));
-app.use("/*", isAuthenticated, function(_, res) {
-  if (!isAuthenticated) {
-    res.json({ message: "Not auth" });
-  }
-  debug("roooot");
-  res.sendFile("index.html", { root: "client/public" });
-});
-/*
+app.use("/api/v1/note", require("./routes/note")({ notes, sharedSecret }));
 app.use("/*", (_, res) =>
   res.sendFile("index.html", { root: "client/public" })
 );
-*/
 port = app.get("port") || 1337;
 
 server = app.listen(port, () =>
-  console.log(`Sven Anders sitt API listening on port ${port}!`)
+  debug(`Sven Anders sitt API listening on port ${port}!`)
 );
 
 function stop() {
