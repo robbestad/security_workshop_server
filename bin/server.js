@@ -43,7 +43,7 @@ app.use("/*", (_, res) =>
 );
 port = process.env.PORT || 1337;
 
-server = app.listen(port, () =>
+server = app.listen(port, "0.0.0.0", () =>
   debug(`Sven Anders sitt API listening on port ${port}!`)
 );
 
