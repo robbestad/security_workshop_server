@@ -1,5 +1,5 @@
 "use strict";
-var bodyParser, express, app, server, session, port;
+var bodyParser, express, app, server, session, port, host;
 var sharedSecret, isAuthenticated;
 
 sharedSecret =
@@ -42,10 +42,12 @@ app.use("/*", (_, res) =>
   res.sendFile("index.html", { root: "client/public" })
 );
 port = process.env.PORT || 1337;
+host = process.env.HOST || "localhost";
 
-server = app.listen(port, "127.0.0.1", () =>
-  debug(`Sven Anders sitt API listening on port ${port}!`)
-);
+server = app.listen(port, host, function() {
+  console.log("Listening on " + port + " running on " + host);
+  debug(`Sven Anders sitt API listening on port ${port}!`);
+});
 
 function stop() {
   server.close();

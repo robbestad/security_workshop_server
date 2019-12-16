@@ -1,1 +1,1 @@
-web: PORT=8000 DEBUG=* sharedSecret="oK#2nAZOd8%NDSFe#$" node bin/server.js
+web: HOST=0.0.0.0 DEBUG=* sharedSecret="oK#2nAZOd8%NDSFe#$" node bin/server.js
