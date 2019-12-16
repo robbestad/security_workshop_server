@@ -6,7 +6,7 @@
   "scripts": {
     "start": "DEBUG=req,security sharedSecret=\"oK#2nAZOd8%NDSFe#$\" node bin/server.js",
     "test": "ENV=test sharedSecret='test' mocha test/tests/**/*",
-    "build": "bash ./build_client.sh"
+    "fe:build": "bash ./build_client.sh"
   },
   "keywords": [],
   "author": "",
